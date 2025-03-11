@@ -3,8 +3,23 @@
 import praw
 import os
 import time
+from flask import Flask
+import threading
+
+app = Flask(__name__)
+
+@app.route('/')
+def index():
+    return "Reddit bot is running"
+
+def start_flask():
+    app.run(host="0.0.0.0", port=8080)
 
 def main():
+    flask_thread = threading.Thread(target=start_flask)
+    flask_thread.daemon = True
+    flask_thread.start()
+    
     print("Bot is starting")
 
     reddit = praw.Reddit(
